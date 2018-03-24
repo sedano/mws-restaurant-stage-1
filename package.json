@@ -21,6 +21,7 @@
   "devDependencies": {
     "browser-sync": "^2.23.6",
     "gulp": "^3.9.1",
+    "gulp-responsive-images": "0.0.3",
     "workbox-build": "^3.0.0"
   }
 }

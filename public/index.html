@@ -23,10 +23,10 @@
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <select id="neighborhoods-select" name="neighborhoods" aria-label="Select a neighborhood" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <select id="cuisines-select" name="cuisines" aria-label="Select a cuisine" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
       </div>
@@ -36,6 +36,15 @@
   <script src="js/dbhelper.js"></script>
   <script src="js/main.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBz1ypjBPnXWBeEWbOb1xnVrBK2aeAr8o&libraries=places&callback=initMap"></script>
+  <script>
+    // Check that service workers are registered
+    if ('serviceWorker' in navigator) {
+      // Use the window load event to keep the page load performant
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
   <footer id="footer">Copyright (c) 2018
     <a href="/">
       <strong>Restaurant Reviews</strong>
