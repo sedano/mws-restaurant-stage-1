@@ -10,7 +10,7 @@ gulp.task('service-worker', () => {
     return workboxBuild.generateSW({
         globDirectory: './public',
         globPatterns: [
-            '**\/*.{html,json,js,css,jpg}',
+            '**\/*.{html,json,js,css,jpg,png,xml,ico,webmanifest}',
         ],
         swDest: 'public/sw.js',
     });
