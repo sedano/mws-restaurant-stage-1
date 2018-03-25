@@ -2,7 +2,9 @@
 <html lang="en">
 
 <head>
+  <!-- Viewport for RWD -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Web application resources -->
   <meta name="msapplication-TileColor" content="#607d8b">
   <meta name="theme-color" content="#607d8b">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -10,13 +12,18 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#607d8b">
+  <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css">
+
   <title>Restaurant Reviews</title>
 </head>
 
 <body>
+  <!-- Beginning header -->
   <header>
+    <!-- Beginning nav -->
     <nav>
       <h1>
         <a href="/">Restaurant Reviews</a>
@@ -24,10 +31,12 @@
     </nav>
   </header>
   <main id="maincontent">
+    <!-- Map container -->
     <section id="map-container">
       <div id="map"></div>
     </section>
     <section>
+      <!-- Filter results -->
       <div class="filter-options">
         <h2>Filter Results</h2>
         <select id="neighborhoods-select" name="neighborhoods" aria-label="Select a neighborhood" onchange="updateRestaurants()">
@@ -40,6 +49,11 @@
       <ul id="restaurants-list"></ul>
     </section>
   </main>
+  <!-- Beginning footer -->
+  <footer id="footer">Copyright (c) 2018
+    <a href="/">
+      <strong>Restaurant Reviews</strong>
+    </a>All Rights Reserved. </footer>
   <script src="js/dbhelper.js"></script>
   <script src="js/main.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBz1ypjBPnXWBeEWbOb1xnVrBK2aeAr8o&libraries=places&callback=initMap"></script>
@@ -52,10 +66,6 @@
       });
     }
   </script>
-  <footer id="footer">Copyright (c) 2018
-    <a href="/">
-      <strong>Restaurant Reviews</strong>
-    </a>All Rights Reserved. </footer>
 </body>
 
 </html>

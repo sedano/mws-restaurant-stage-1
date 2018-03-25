@@ -2,9 +2,18 @@
 <html>
 
 <head>
+  <!-- Viewport for RWD -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Web application resources -->
+  <meta name="msapplication-TileColor" content="#607d8b">
+  <meta name="theme-color" content="#607d8b">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#607d8b">
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css">
   <title>Restaurant Info</title>
@@ -71,7 +80,15 @@
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBz1ypjBPnXWBeEWbOb1xnVrBK2aeAr8o&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
-
+  <script>
+    // Check that service workers are registered
+    if ('serviceWorker' in navigator) {
+      // Use the window load event to keep the page load performant
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
 </body>
 
 </html>
