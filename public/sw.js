@@ -37,7 +37,7 @@ self.__precacheManifest = [
   },
   {
     "url": "css/styles.css",
-    "revision": "824251d3c56da795190f85511e6360a7"
+    "revision": "0b6e45bfafae7c2c0a2cee4bd2c75ce3"
   },
   {
     "url": "data/restaurants.json",
@@ -137,7 +137,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "0a4df78de147168c7fdde9c7a17e90e9"
+    "revision": "c3c3839a4ecb441ea25dd4ddfcb90f0b"
   },
   {
     "url": "js/dbhelper.js",
@@ -145,11 +145,11 @@ self.__precacheManifest = [
   },
   {
     "url": "js/main.js",
-    "revision": "7b1e37588f98b7bee4fa17d5964c55d8"
+    "revision": "a7c3757f73200abc12e89aa3507e9f67"
   },
   {
     "url": "js/restaurant_info.js",
-    "revision": "02a3bbce114d62ad800dae4bcf7cf0b2"
+    "revision": "b7058ec89480abe74c4c17844b6c5653"
   },
   {
     "url": "mstile-150x150.png",
@@ -157,7 +157,7 @@ self.__precacheManifest = [
   },
   {
     "url": "restaurant.html",
-    "revision": "65ec450c804877fb3b30b07b9f2496b1"
+    "revision": "9f85b0b3f5bc3731e23346d746e32313"
   },
   {
     "url": "site.webmanifest",
@@ -165,4 +165,6 @@ self.__precacheManifest = [
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {
+  "ignoreUrlParametersMatching": [/.*/]
+});

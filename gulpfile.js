@@ -12,6 +12,7 @@ gulp.task('service-worker', () => {
         globPatterns: [
             '**\/*.{html,json,js,css,jpg,png,xml,ico,webmanifest}',
         ],
+        ignoreUrlParametersMatching: [/.*/],
         swDest: 'public/sw.js',
     });
 });
