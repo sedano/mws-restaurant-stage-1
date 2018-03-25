@@ -137,11 +137,11 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "c3c3839a4ecb441ea25dd4ddfcb90f0b"
+    "revision": "75a386ecc4eaa4ffd31b03c8852c08ab"
   },
   {
     "url": "js/dbhelper.js",
-    "revision": "8d6c6aad32152671008c25705b882362"
+    "revision": "642aab7831342d5b0ef2a30b7e942e84"
   },
   {
     "url": "js/main.js",
@@ -157,7 +157,7 @@ self.__precacheManifest = [
   },
   {
     "url": "restaurant.html",
-    "revision": "9f85b0b3f5bc3731e23346d746e32313"
+    "revision": "3d017aac226279d76fa10c51708d15da"
   },
   {
     "url": "site.webmanifest",

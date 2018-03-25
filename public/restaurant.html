@@ -80,15 +80,6 @@
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBz1ypjBPnXWBeEWbOb1xnVrBK2aeAr8o&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
-  <script>
-    // Check that service workers are registered
-    if ('serviceWorker' in navigator) {
-      // Use the window load event to keep the page load performant
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js');
-      });
-    }
-  </script>
 </body>
 
 </html>
