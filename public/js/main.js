@@ -85,7 +85,7 @@ window.initMap = () => {
       Array.prototype.slice.call(document.querySelectorAll('#map *')).forEach(item => {
         item.setAttribute('tabindex', '-1');
       });
-    }, 100);
+    }, 250);
   });
   updateRestaurants();
 }
@@ -160,7 +160,7 @@ createRestaurantHTML = (restaurant) => {
   li.append(image);
 
   const div = document.createElement('div');
-  const name = document.createElement('h1');
+  const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
   div.append(name);
 

@@ -37,7 +37,7 @@ self.__precacheManifest = [
   },
   {
     "url": "css/styles.css",
-    "revision": "0b6e45bfafae7c2c0a2cee4bd2c75ce3"
+    "revision": "068f826807bfb59c85d7c0b3a580d25b"
   },
   {
     "url": "data/restaurants.json",
@@ -145,11 +145,11 @@ self.__precacheManifest = [
   },
   {
     "url": "js/main.js",
-    "revision": "a7c3757f73200abc12e89aa3507e9f67"
+    "revision": "8a2791447d89811cf6cddb6f29e393f7"
   },
   {
     "url": "js/restaurant_info.js",
-    "revision": "b7058ec89480abe74c4c17844b6c5653"
+    "revision": "9c0f44233ddc1715ad86aadeb64fe757"
   },
   {
     "url": "mstile-150x150.png",
@@ -157,7 +157,7 @@ self.__precacheManifest = [
   },
   {
     "url": "restaurant.html",
-    "revision": "3d017aac226279d76fa10c51708d15da"
+    "revision": "0cedeb7e8cc768156d782b84f41e0d0b"
   },
   {
     "url": "site.webmanifest",
