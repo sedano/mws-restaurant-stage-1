@@ -16,9 +16,16 @@ window.initMap = () => {
       });
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      google.maps.event.addListener(self.map, "tilesloaded", () => {
+        setTimeout(() => {
+          Array.prototype.slice.call(document.querySelectorAll('#map *')).forEach(item => {
+            item.setAttribute('tabindex', '-1');
+          });
+        }, 100);
+      });
     }
   });
-}
+};
 
 /**
  * Get current restaurant from page URL.
@@ -57,6 +64,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
+  image.setAttribute('alt', `Picture of the restaurant: ${restaurant.name}`);
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
@@ -139,7 +147,7 @@ createReviewHTML = (review) => {
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-fillBreadcrumb = (restaurant=self.restaurant) => {
+fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.innerHTML = restaurant.name;
