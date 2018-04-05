@@ -33,7 +33,7 @@ self.__precacheManifest = [
   },
   {
     "url": "browserconfig.xml",
-    "revision": "84508dceb02484445f1d7db3a9d36c9c"
+    "revision": "4af6927fc72cc490c5e73c88f322b579"
   },
   {
     "url": "css/styles.css",
@@ -41,7 +41,7 @@ self.__precacheManifest = [
   },
   {
     "url": "data/restaurants.json",
-    "revision": "4ba9d8355cee522235582ae2442e1c71"
+    "revision": "500a3defff288a163f63f80b48025716"
   },
   {
     "url": "favicon-16x16.png",
@@ -137,11 +137,11 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "75a386ecc4eaa4ffd31b03c8852c08ab"
+    "revision": "502a4e96794bd1dc6584af02de898d2c"
   },
   {
     "url": "js/dbhelper.js",
-    "revision": "642aab7831342d5b0ef2a30b7e942e84"
+    "revision": "93413936a41d71a252c1af47b7c09c50"
   },
   {
     "url": "js/main.js",
@@ -149,7 +149,7 @@ self.__precacheManifest = [
   },
   {
     "url": "js/restaurant_info.js",
-    "revision": "9c0f44233ddc1715ad86aadeb64fe757"
+    "revision": "171324441b86c29d0755ed8ab145997a"
   },
   {
     "url": "mstile-150x150.png",
@@ -161,7 +161,7 @@ self.__precacheManifest = [
   },
   {
     "url": "site.webmanifest",
-    "revision": "e54dc80999f5d60f7b9de0139c5b0296"
+    "revision": "57ab9f32cb7d9cc7a07b4b40618c66c2"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
