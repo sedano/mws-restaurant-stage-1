@@ -16,38 +16,28 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const restaurants = JSON.parse(xhr.responseText);
-        // const restaurants = json.restaurants;
+    fetch(DBHelper.DATABASE_URL)
+      .then(res => res.json())
+      .then(restaurants => {
         callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+      })
+      .catch(error => {
+        callback(error, null)
+      });
   }
 
   /**
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
-    // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) { // Got the restaurant
-          callback(null, restaurant);
-        } else { // Restaurant does not exist in the database
-          callback('Restaurant does not exist', null);
-        }
-      }
-    });
+    fetch(`${DBHelper.DATABASE_URL}/${id}`)
+      .then(res => res.json())
+      .then(restaurant => {
+        callback(null, restaurant);
+      })
+      .catch(error => {
+        callback('Restaurant does not exist', null);
+      });
   }
 
   /**
@@ -143,7 +133,7 @@ class DBHelper {
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {
-    return (`./restaurant.html?id=${restaurant.id}.jpg`);
+    return (`./restaurant.html?id=${restaurant.id}`);
   }
 
   /**
