@@ -38,4 +38,4 @@ gulp.task('img', () => {
         .pipe(gulp.dest('public/img'));
 });
 
-gulp.task('default', ['service-worker']);
+gulp.task('default', ['serve']);
