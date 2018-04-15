@@ -32,6 +32,7 @@ const CACHE_FILES = [
     'img/9-small.jpg',
     'img/9.jpg',
     'index.html',
+    'js/idb.js',
     'js/dbhelper.js',
     'js/main.js',
     'js/restaurant_info.js',
