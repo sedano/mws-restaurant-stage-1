@@ -82,10 +82,10 @@ window.initMap = () => {
   });
   google.maps.event.addListener(self.map, "tilesloaded", () => {
     setTimeout(() => {
-      Array.prototype.slice.call(document.querySelectorAll('#map *')).forEach(item => {
+      Array.prototype.slice.call(document.querySelectorAll('#map a, #map [role="button"], #map button, #map iframe, #map [tabindex="0"]')).forEach(item => {
         item.setAttribute('tabindex', '-1');
       });
-    }, 250);
+    }, 200);
   });
   updateRestaurants();
 }
