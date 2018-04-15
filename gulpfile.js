@@ -6,14 +6,20 @@ const responsive = require('gulp-responsive-images');
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
 
-gulp.task('service-worker', () => {
+gulp.task('sw', () => {
     return workboxBuild.generateSW({
         globDirectory: './public',
         globPatterns: [
-            '**\/*.{html,json,js,css,jpg,png,xml,ico,webmanifest}',
+            '**\/*.{html,json,js,css,xml,ico,webmanifest}',
         ],
         ignoreUrlParametersMatching: [/.*/],
-        swDest: 'public/sw.js',
+        runtimeCaching: [
+            {
+                urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+                handler: 'cacheFirst'
+            }
+        ],
+        swDest: 'public/workbox-sw.js',
     });
 });
 
@@ -22,7 +28,7 @@ gulp.task('serve', () => {
         server: {
             baseDir: "./public"
         },
-        browser: "google chrome"
+        open: false
     });
     gulp.watch(['public/**/*'], reload);
 });
