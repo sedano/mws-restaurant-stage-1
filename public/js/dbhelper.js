@@ -72,7 +72,7 @@ class DBHelper {
 
       restaurants.forEach(restaurant => {
         console.log(`Put ${restaurant.name} into db`);
-        store.put(restaurant)
+        store.put(restaurant);
       });
     })
   }
@@ -89,7 +89,7 @@ class DBHelper {
       const store = tx.objectStore('mws-db');
 
       console.log(`Update ${restaurant.name} db entry`);
-      store.put(restaurant)
+      store.put(restaurant);
     })
   }
 
@@ -111,7 +111,7 @@ class DBHelper {
           callback(null, restaurants);
         })
         .catch(error => {
-          callback(error, null)
+          callback(error, null);
         });
     });
   }
@@ -203,9 +203,9 @@ class DBHelper {
         callback(error, null);
       } else {
         // Get all neighborhoods from all restaurants
-        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood);
         // Remove duplicates from neighborhoods
-        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
+        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i);
         callback(null, uniqueNeighborhoods);
       }
     });
