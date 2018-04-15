@@ -13,31 +13,123 @@ class DBHelper {
   }
 
   /**
+   * Initialize IDB object store
+   */
+  static openIDBDatabase() {
+    return idb.open('mws-db', 1, upgradeDB => {
+      upgradeDB.createObjectStore('mws-db', { keyPath: 'id' });
+    });
+  }
+
+  /**
+   * Return cached restaurants from IDB
+   */
+  static getCachedRestaurants() {
+    const dbPromise = DBHelper.openIDBDatabase();
+    return dbPromise.then(db => {
+      if (!db) return;
+
+      const tx = db.transaction('mws-db');
+      const store = tx.objectStore('mws-db');
+
+      return store.getAll();
+    })
+  }
+
+  /**
+   * Return cached restaurant by ID from IDB
+   */
+  static getCachedRestaurantsById(id) {
+    const dbPromise = DBHelper.openIDBDatabase();
+    return dbPromise.then(db => {
+      if (!db) return;
+
+      const tx = db.transaction('mws-db');
+      const store = tx.objectStore('mws-db');
+      return store.get(id);
+    });
+  }
+
+  /**
+   * Store all restaurants into IDB
+   */
+  static storeRestaurants(restaurants) {
+    const dbPromise = DBHelper.openIDBDatabase();
+    return dbPromise.then(db => {
+      if (!db) return;
+
+      const tx = db.transaction('mws-db', 'readwrite');
+      const store = tx.objectStore('mws-db');
+
+      restaurants.forEach(restaurant => {
+        console.log(`Put ${restaurant.name} into db`);
+        store.put(restaurant)
+      });
+    })
+  }
+
+  /**
+   * Store single restaurant into IDB
+   */
+  static storeRestaurant(restaurant) {
+    const dbPromise = DBHelper.openIDBDatabase();
+    return dbPromise.then(db => {
+      if (!db) return;
+
+      const tx = db.transaction('mws-db', 'readwrite');
+      const store = tx.objectStore('mws-db');
+
+      console.log(`Put ${restaurant.name} into db`);
+      store.put(restaurant)
+    })
+  }
+
+  /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL)
-      .then(res => res.json())
-      .then(restaurants => {
-        callback(null, restaurants);
-      })
-      .catch(error => {
-        callback(error, null)
-      });
+    DBHelper.getCachedRestaurants().then(restaurants => {
+      //Try to get from IDB and return cached restaurants
+      if (restaurants.length > 0) {
+        console.log('Got restaurants from db:', restaurants);
+        callback(null, restaurants)
+      }
+
+      //Fetch from server and update or add restaurants to IDB
+      fetch(DBHelper.DATABASE_URL)
+        .then(res => res.json())
+        .then(restaurants => {
+          DBHelper.storeRestaurants(restaurants);
+          callback(null, restaurants);
+        })
+        .catch(error => {
+          callback(error, null)
+        });
+    });
   }
 
   /**
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
-    fetch(`${DBHelper.DATABASE_URL}/${id}`)
-      .then(res => res.json())
-      .then(restaurant => {
+    //Try to get from IDB by ID and return cached restaurant
+    DBHelper.getCachedRestaurantsById(Number(id)).then(restaurant => {
+      if (restaurant) {
+        console.log('Got restaurant from db:', restaurant);
         callback(null, restaurant);
-      })
-      .catch(error => {
-        callback('Restaurant does not exist', null);
-      });
+      }
+
+      //Fetch from server and update or add restaurant to IDB
+      fetch(`${DBHelper.DATABASE_URL}/${id}`)
+        .then(res => res.json())
+        .then(restaurant => {
+          DBHelper.storeRestaurant(restaurant);
+          callback(null, restaurant);
+        })
+        .catch(error => {
+          callback('Restaurant does not exist', null);
+        });
+    });
   }
 
   /**
