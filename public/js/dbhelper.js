@@ -18,6 +18,15 @@ class DBHelper {
   static openIDBDatabase() {
     return idb.open('mws-db', 1, upgradeDB => {
       upgradeDB.createObjectStore('mws-db', { keyPath: 'id' });
+      //Initialize database (done here to avoid duplicated readwrite operations)
+      fetch(DBHelper.DATABASE_URL)
+        .then(res => res.json())
+        .then(restaurants => {
+          DBHelper.storeRestaurants(restaurants);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     });
   }
 
@@ -79,7 +88,7 @@ class DBHelper {
       const tx = db.transaction('mws-db', 'readwrite');
       const store = tx.objectStore('mws-db');
 
-      console.log(`Put ${restaurant.name} into db`);
+      console.log(`Update ${restaurant.name} db entry`);
       store.put(restaurant)
     })
   }
@@ -92,14 +101,13 @@ class DBHelper {
       //Try to get from IDB and return cached restaurants
       if (restaurants.length > 0) {
         console.log('Got restaurants from db:', restaurants);
-        callback(null, restaurants)
+        callback(null, restaurants);
       }
 
-      //Fetch from server and update or add restaurants to IDB
+      //Fetch newest data from server
       fetch(DBHelper.DATABASE_URL)
         .then(res => res.json())
         .then(restaurants => {
-          DBHelper.storeRestaurants(restaurants);
           callback(null, restaurants);
         })
         .catch(error => {
@@ -119,7 +127,7 @@ class DBHelper {
         callback(null, restaurant);
       }
 
-      //Fetch from server and update or add restaurant to IDB
+      //Fetch from server and update restaurant entry in IDB
       fetch(`${DBHelper.DATABASE_URL}/${id}`)
         .then(res => res.json())
         .then(restaurant => {
