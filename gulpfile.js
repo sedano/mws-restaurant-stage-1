@@ -4,6 +4,7 @@ const gulp = require('gulp');
 const workboxBuild = require('workbox-build');
 const responsive = require('gulp-responsive-images');
 const browserSync = require('browser-sync').create();
+const serve = require('serve');
 const reload = browserSync.reload;
 
 gulp.task('sw', () => {
@@ -23,14 +24,18 @@ gulp.task('sw', () => {
     });
 });
 
-gulp.task('serve', () => {
+gulp.task('serve:dev', () => {
     browserSync.init({
         server: {
-            baseDir: "./public"
+            baseDir: './public'
         },
         open: false
     });
     gulp.watch(['public/**/*'], reload);
+});
+
+gulp.task('serve', () => {
+    serve('./public');
 });
 
 gulp.task('img', () => {

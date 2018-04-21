@@ -22,6 +22,7 @@
     "browser-sync": "^2.23.6",
     "gulp": "^3.9.1",
     "gulp-responsive-images": "0.0.3",
+    "serve": "^6.5.5",
     "workbox-build": "^3.0.0"
   }
 }
