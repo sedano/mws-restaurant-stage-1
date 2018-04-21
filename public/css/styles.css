@@ -120,6 +120,7 @@ nav h1 a:hover {
     font-size: 17px;
     margin: 0;
     width: calc(50% - 40px);
+    white-space: nowrap;
 }
 
 
@@ -429,10 +430,13 @@ nav h1 a:hover {
     #reviews-container {
         border-bottom: 1px solid #d9d9d9;
         border-top: 1px solid #fff;
-        padding: 100px 20px 30px;
+        padding: 20px;
         width: auto;
         box-sizing: border-box;
         flex: 1 1 auto;
+    }
+    #restaurant-container{
+        padding-top: 100px;
     }
     #breadcrumb {
         padding: 0 20px;
@@ -446,5 +450,20 @@ nav h1 a:hover {
     .inside #footer {
         position: relative;
         width: 100%;
+    }
+}
+
+@media only screen and (max-width:319px) {
+    nav h1 a {
+        line-height: 40px;
+    }
+    #restaurant-container,
+    #reviews-container{
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    #reviews-list li{
+        margin:30px 5px;
     }
 }
