@@ -52,7 +52,7 @@ gulp.task('img', () => {
 });
 
 gulp.task('minify-css', () => {
-    return gulp.src('./public/css/*.css')
+    return gulp.src('./public/css/styles.css')
         .pipe(cleanCSS({ compatibility: 'ie8' }))
         .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest('./public/css'));
