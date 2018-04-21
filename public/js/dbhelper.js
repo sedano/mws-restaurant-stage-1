@@ -240,6 +240,9 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
+    // Image fallback
+    if (restaurant.photograph === undefined)
+      return ('/img/10.jpg');
     return (`/img/${restaurant.photograph}.jpg`);
   }
 
@@ -247,6 +250,9 @@ class DBHelper {
    * Responsive restaurant image URL.
    */
   static responsiveImageUrlForRestaurant(restaurant) {
+    // Image fallback
+    if (restaurant.photograph === undefined)
+      return ('/img/10-small.jpg');
     return (`/img/${restaurant.photograph}-small.jpg`);
   }
 
