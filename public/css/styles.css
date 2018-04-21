@@ -466,4 +466,11 @@ nav h1 a:hover {
     #reviews-list li{
         margin:30px 5px;
     }
+
+    #restaurants-list{
+        padding: 30px 0 60px;
+    }
+    #restaurants-list li{
+        margin: 15px 0;
+    }
 }
