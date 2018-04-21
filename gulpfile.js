@@ -3,6 +3,8 @@
 const gulp = require('gulp');
 const workboxBuild = require('workbox-build');
 const responsive = require('gulp-responsive-images');
+const cleanCSS = require('gulp-clean-css');
+const rename = require('gulp-rename');
 const browserSync = require('browser-sync').create();
 const serve = require('serve');
 const reload = browserSync.reload;
@@ -47,6 +49,13 @@ gulp.task('img', () => {
             }]
         }))
         .pipe(gulp.dest('public/img'));
+});
+
+gulp.task('minify-css', () => {
+    return gulp.src('./public/css/*.css')
+        .pipe(cleanCSS({ compatibility: 'ie8' }))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest('./public/css'));
 });
 
 gulp.task('default', ['serve']);

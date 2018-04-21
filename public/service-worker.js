@@ -7,6 +7,7 @@ const CACHE_FILES = [
     'apple-touch-icon.png',
     'browserconfig.xml',
     'css/styles.css',
+    'css/styles.min.css',
     'data/restaurants.json',
     'favicon-16x16.png',
     'favicon-32x32.png',
