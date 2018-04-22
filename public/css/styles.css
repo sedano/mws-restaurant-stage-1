@@ -453,14 +453,15 @@ nav h1 a:hover {
     }
 }
 
-@media only screen and (max-width:319px) {
+@media only screen and (max-width:320px) {
     nav h1 a {
         line-height: 40px;
+        letter-spacing: 5px;
     }
     #restaurant-container,
     #reviews-container{
-        padding-right: 0;
-        padding-left: 0;
+        padding-right: 5px;
+        padding-left: 5px;
     }
 
     #reviews-list li{
@@ -468,7 +469,7 @@ nav h1 a:hover {
     }
 
     #restaurants-list{
-        padding: 30px 0 60px;
+        padding: 30px 5px 60px;
     }
     #restaurants-list li{
         margin: 15px 0;
