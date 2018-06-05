@@ -19,12 +19,12 @@
   },
   "homepage": "https://github.com/udacity/mws-restaurant-stage-1#readme",
   "devDependencies": {
-    "browser-sync": "^2.23.6",
+    "browser-sync": "^2.24.4",
     "gulp": "^3.9.1",
-    "gulp-clean-css": "^3.9.3",
-    "gulp-rename": "^1.2.2",
+    "gulp-clean-css": "^3.9.4",
+    "gulp-rename": "^1.2.3",
     "gulp-responsive-images": "0.0.3",
-    "serve": "^6.5.5",
-    "workbox-build": "^3.0.0"
+    "serve": "^6.5.8",
+    "workbox-build": "^3.2.0"
   }
 }
