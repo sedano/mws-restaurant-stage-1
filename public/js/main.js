@@ -10,6 +10,7 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  updateRestaurants();
 });
 
 /**
@@ -137,6 +138,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
     ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
+  lazyLoadImages();
 }
 
 /**
@@ -150,10 +152,12 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   // source.setAttribute('media', '(min-width:500)');
   // source.setAttribute('srcset', DBHelper.responsiveImageUrlForRestaurant(restaurant));
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  const imageSrc = DBHelper.imageUrlForRestaurant(restaurant);
+  image.className = 'restaurant-img lazy';
+  image.src = 'img/placeholder.gif'
+  image.setAttribute('data-src', imageSrc);
   image.setAttribute('alt', `Picture of the restaurant: ${restaurant.name}`);
-  image.setAttribute('srcset', `${DBHelper.responsiveImageUrlForRestaurant(restaurant)} 400w, ${image.src} 800w`)
+  image.setAttribute('data-srcset', `${DBHelper.responsiveImageUrlForRestaurant(restaurant)} 400w, ${imageSrc} 800w`)
   // image.setAttribute('sizes', '(max-width: 400px) 360px, 800px')
   // picture.append(source);
   // picture.append(image);
@@ -194,4 +198,33 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
+}
+
+/**
+ * Lazy loading images using intersection observer
+ * https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video/
+ */
+
+lazyLoadImages = () => {
+  const lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target;
+          lazyImage.src = lazyImage.dataset.src;
+          lazyImage.srcset = lazyImage.dataset.srcset;
+          lazyImage.classList.remove("lazy");
+          lazyImageObserver.unobserve(lazyImage);
+        }
+      });
+    });
+
+    lazyImages.forEach(function (lazyImage) {
+      lazyImageObserver.observe(lazyImage);
+    });
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
 }
