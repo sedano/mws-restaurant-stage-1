@@ -4,7 +4,7 @@ var map;
 /**
  * Initialize Google map, called from HTML.
  */
-loadRestaurant = (loadMap = false) => {
+loadRestaurant = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
@@ -13,7 +13,7 @@ loadRestaurant = (loadMap = false) => {
       mapContainer.style.backgroundImage = `url("https://maps.googleapis.com/maps/api/staticmap?center=${restaurant.latlng.lat},${restaurant.latlng.lng}&markers=${restaurant.latlng.lat},${restaurant.latlng.lng}&zoom=16&size=640x640&scale=2&format=jpg&maptype=roadmap&key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw")`
       fillBreadcrumb();
 
-      if (!loadMap)
+      if (!window.google)
         return;
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
@@ -187,11 +187,15 @@ getParameterByName = (name, url) => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadRestaurant(false); //Loads restaurant without interactive map
+  loadRestaurant(); //Loads restaurant without interactive map
   const mapContainer = document.getElementById('map-container')
 
   mapContainer.addEventListener('click', () => {
     document.getElementById('map').style.display = 'block';
-    loadRestaurant(true);
+    const script = document.createElement("script"); // Make a script DOM node
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw&amp;libraries=places"
+    document.body.appendChild(script);
+    script.onreadystatechange = loadRestaurant;
+    script.onload = loadRestaurant;
   }, { once: true });
 });

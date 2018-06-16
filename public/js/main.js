@@ -11,6 +11,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
   updateRestaurants();
+
+  const mapContainer = document.getElementById('map-container')
+  mapContainer.addEventListener('click', () => {
+    document.getElementById('map').style.display = 'block';
+    const script = document.createElement("script"); // Make a script DOM node
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw&amp;libraries=places"
+    document.body.appendChild(script);
+    script.onreadystatechange = initMap;
+    script.onload = initMap;
+
+  }, { once: true });
+
 });
 
 /**
@@ -190,15 +202,31 @@ createRestaurantHTML = (restaurant) => {
  * Add markers for current restaurants to the map.
  */
 addMarkersToMap = (restaurants = self.restaurants) => {
+  let markerString = "";
   restaurants.forEach(restaurant => {
-    // Add marker to the map
-    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
-    google.maps.event.addListener(marker, 'click', () => {
-      window.location.href = marker.url
-    });
-    self.markers.push(marker);
+    // Add marker to the map if initialized
+    if (self.map) {
+      const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
+      google.maps.event.addListener(marker, 'click', () => {
+        window.location.href = marker.url
+      });
+      self.markers.push(marker);
+    }
+    markerString += getStaticMarkerString(restaurant);
+
   });
+  if (markerString) {
+    const zoom = window.innerWidth > 1023 ? 11 : 13;
+    const scale = window.innerWidth > 1023 ? 2 : 1;
+    const imageUrl = `url("https://maps.googleapis.com/maps/api/staticmap?center=40.7222216,-73.987501&zoom=${zoom}&size=640x640&scale=${scale}${markerString}&format=jpg&maptype=roadmap&key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw")`
+    document.getElementById('map-container').style.backgroundImage = imageUrl;
+
+  }
 }
+
+getStaticMarkerString = (restaurant) => {
+  return `&markers=color:red%7Clabel:${restaurant.id}%7C${restaurant.latlng.lat},${restaurant.latlng.lng}`
+};
 
 /**
  * Lazy loading images using intersection observer

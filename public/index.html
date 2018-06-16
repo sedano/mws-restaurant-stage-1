@@ -57,11 +57,32 @@
     }
 
     #map-container {
-      background-image: url("https://maps.googleapis.com/maps/api/staticmap?center=40.7222216,-73.987501&zoom=13&size=800x600&format=jpg&maptype=roadmap&key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw");
       background-repeat: no-repeat;
       background-position: 50% 50%;
       background-size: cover;
     }
+
+    @media only screen and (min-width:1024px) {
+      #map-container {
+        background-image: url("https://maps.googleapis.com/maps/api/staticmap?center=40.7222216,-73.987501&zoom=11&size=640x640&scale=2&format=jpg&maptype=roadmap&key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw");
+      }
+    }
+
+    @media only screen and (max-width:1023px) {
+      #map-container {
+        background-image: url("https://maps.googleapis.com/maps/api/staticmap?center=40.7222216,-73.987501&zoom=13&size=640x640&format=jpg&maptype=roadmap&key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw");
+      }
+    }
+
+    /* #click-to-load {
+      width: 100%;
+      text-align: center;
+      line-height: 400px;
+      font-weight: bold;
+      background-color: #00000033;
+      font-size: 3em;
+      color: #ffffff;
+    } */
 
     a {
       color: #b71c1c;
@@ -90,8 +111,9 @@
   </header>
   <main id="maincontent">
     <!-- Map container -->
-    <section id="map-container" onclick="document.getElementById('map').style.display = 'block'">
+    <section id="map-container">
       <div id="map" tabindex="-1" role="application" aria-label="Google Maps" style="display:none;"></div>
+      <!-- <div id="click-to-load">Click to load</div> -->
     </section>
     <section>
       <!-- Filter results -->
@@ -122,7 +144,7 @@
   <script src="js/idb.js"></script>
   <script src="js/dbhelper.js"></script>
   <script src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw&amp;libraries=places&amp;callback=initMap"></script>
+  <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw&amp;libraries=places&amp;callback=initMap"></script> -->
 </body>
 
 </html>
