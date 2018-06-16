@@ -17,7 +17,9 @@ class DBHelper {
    */
   static openIDBDatabase() {
     return idb.open('mws-db', 1, upgradeDB => {
-      upgradeDB.createObjectStore('mws-db', { keyPath: 'id' });
+      upgradeDB.createObjectStore('mws-db', {
+        keyPath: 'id'
+      });
       //Initialize database (done here to avoid duplicated readwrite operations)
       fetch(DBHelper.DATABASE_URL)
         .then(res => res.json())
@@ -266,9 +268,22 @@ class DBHelper {
       url: DBHelper.urlForRestaurant(restaurant),
       map: map,
       animation: null //google.maps.Animation.DROP
-    }
-    );
+    });
     return marker;
+  }
+
+  static setFavoriteRestaurantById(restaurantId, isFavorite) {
+    // http://localhost:1337/restaurants/<restaurant_id>/?is_favorite=false
+    fetch(`${DBHelper.DATABASE_URL}/${restaurantId}/?is_favorite=${isFavorite}`, {
+        method: 'PUT'
+      })
+      .then(res => res.json())
+      .then(restaurant => {
+        DBHelper.storeRestaurant(restaurant);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
 }

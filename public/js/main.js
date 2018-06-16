@@ -22,7 +22,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     script.onreadystatechange = initMap;
     script.onload = initMap;
 
-  }, { once: true });
+  }, {
+    once: true
+  });
 
 });
 
@@ -176,10 +178,19 @@ createRestaurantHTML = (restaurant) => {
   // picture.append(image);
   li.append(image);
 
+  const checkbox = document.createElement('input');
+  checkbox.className = 'star';
+  checkbox.setAttribute('type', 'checkbox');
+  (restaurant.is_favorite === 'true') ? checkbox.setAttribute('checked', true): null;
+  checkbox.addEventListener('change', (e) => {
+    DBHelper.setFavoriteRestaurantById(restaurant.id, e.target.checked);
+  });
+
   const div = document.createElement('div');
   const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
   div.append(name);
+  div.append(checkbox);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
@@ -226,7 +237,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 }
 
 getStaticMarkerString = (restaurant) => {
-  return `&markers=color:red%7Clabel:${restaurant.id}%7C${restaurant.latlng.lat},${restaurant.latlng.lng}`
+  return `&markers=color:red%7C${restaurant.latlng.lat},${restaurant.latlng.lng}`
 };
 
 /**

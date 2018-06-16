@@ -1,5 +1,4 @@
 @charset "utf-8";
-
 /* CSS Document */
 
 body,
@@ -84,7 +83,6 @@ section {
     color: #f0f0f0;
 }
 
-
 /* ====================== Navigation ====================== */
 
 nav {
@@ -123,7 +121,6 @@ nav h1 a:hover {
     white-space: nowrap;
 }
 
-
 /* Display list items side by side */
 
 #breadcrumb li {
@@ -131,7 +128,6 @@ nav h1 a:hover {
     color: #fdfdfd;
     font-size: 1em;
 }
-
 
 /* Add a slash symbol (/) before/behind each list item */
 
@@ -141,14 +137,12 @@ nav h1 a:hover {
     content: "/\00a0";
 }
 
-
 /* Add a color to all links inside the list */
 
 #breadcrumb li a {
     color: #fdfdfd;
     text-decoration: none;
 }
-
 
 /* Add a color on mouse-over */
 
@@ -157,7 +151,6 @@ nav h1 a:hover {
     text-decoration: underline;
 }
 
-
 /* ====================== Map ====================== */
 
 #map {
@@ -165,7 +158,6 @@ nav h1 a:hover {
     width: 100%;
     background-color: #ccc;
 }
-
 
 /* ====================== Restaurant Filtering ====================== */
 
@@ -392,7 +384,6 @@ nav h1 a:hover {
     color: #666;
 }
 
-
 /* =================== Responsive Layout ================== */
 
 #restaurants-list {
@@ -405,6 +396,10 @@ nav h1 a:hover {
 #restaurants-list li {
     display: block;
     flex: 1 1 auto;
+}
+
+#restaurants-list li div {
+    position: relative;
 }
 
 @media only screen and (max-width: 768px) {
@@ -435,7 +430,7 @@ nav h1 a:hover {
         box-sizing: border-box;
         flex: 1 1 auto;
     }
-    #restaurant-container{
+    #restaurant-container {
         padding-top: 100px;
     }
     #breadcrumb {
@@ -459,19 +454,49 @@ nav h1 a:hover {
         letter-spacing: 5px;
     }
     #restaurant-container,
-    #reviews-container{
+    #reviews-container {
         padding-right: 5px;
         padding-left: 5px;
     }
-
-    #reviews-list li{
-        margin:30px 5px;
+    #reviews-list li {
+        margin: 30px 5px;
     }
-
-    #restaurants-list{
+    #restaurants-list {
         padding: 30px 5px 60px;
     }
-    #restaurants-list li{
+    #restaurants-list li {
         margin: 15px 0;
     }
+}
+
+/* ========== Favorite star =========== */
+
+.star {
+    visibility: hidden;
+    position: absolute;
+    top: -25px;
+    right: 40px;
+    font-size: 30px;
+    cursor: pointer;
+    /* text-shadow: 0 0 2px #333, 1px 1px #ccc, -1px 1px #ccc, 1px -1px #ccc, -1px -1px #ccc; */
+}
+
+.star:before {
+    content: "\2605";
+    color: #ffffff;
+    visibility: visible;
+    position: absolute;
+    display: block;
+    background-color: #818f95;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 35px;
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+}
+
+.star:checked:before {
+    color: #f2b01e;
+    box-shadow: 0 0 15px #f2b01e;
 }
