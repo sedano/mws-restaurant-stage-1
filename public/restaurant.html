@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <!-- Viewport for RWD -->
@@ -14,9 +14,86 @@
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#607d8b">
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <!-- Main CSS file -->
-  <link rel="stylesheet" href="css/styles.min.css">
   <title>Restaurant Info</title>
+  <!-- Critical Styles -->
+  <style>
+    body {
+      position: relative;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10pt;
+      background-color: #fdfdfd;
+      color: #333;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    nav {
+      width: 100%;
+      height: 80px;
+      background-color: #455a64;
+      text-align: center;
+    }
+
+    nav h1 {
+      margin: auto;
+    }
+
+    nav h1 a {
+      color: #fff;
+      line-height: 80px;
+      font-size: 1.5em;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    nav h1 a:hover {
+      color: #fff;
+      text-shadow: 0 0 3px #ccc;
+    }
+
+    #breadcrumb {
+      padding: 0 20px;
+      line-height: 50px;
+      list-style: none;
+      background-color: #01579b;
+      font-size: 17px;
+      margin: 0;
+      width: 100%;
+      white-space: nowrap;
+    }
+
+    #breadcrumb li {
+      display: inline;
+      color: #fdfdfd;
+      font-size: 1em;
+    }
+
+    #breadcrumb li+li:before {
+      padding: 8px;
+      color: #fff;
+      content: "/\00a0";
+    }
+
+    #breadcrumb li a {
+      color: #fdfdfd;
+      text-decoration: none;
+    }
+
+    #map,
+    #map-container {
+      height: 400px;
+      width: 100%;
+      background-color: #ccc;
+    }
+
+    .inside #map-container {
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size: cover;
+    }
+  </style>
+
 </head>
 
 <body class="inside">
@@ -43,7 +120,7 @@
   <main id="maincontent">
     <!-- Beginning map -->
     <section id="map-container">
-      <div id="map" role="application" tabindex="-1" aria-label="Google Maps"></div>
+      <div id="map" tabindex="-1" role="application" aria-label="Google Maps" style="display:none;"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
@@ -72,6 +149,12 @@
   </footer>
   <!-- End footer -->
 
+  <!-- Main CSS file -->
+  <link rel="preload" as="style" href="css/styles.min.css" onload="this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="css/styles.min.css">
+  </noscript>
+
   <!-- Beginning scripts -->
   <!-- Database helpers -->
   <script src="js/idb.js"></script>
@@ -79,7 +162,7 @@
   <!-- Main javascript file -->
   <script src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBz1ypjBPnXWBeEWbOb1xnVrBK2aeAr8o&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBz1ypjBPnXWBeEWbOb1xnVrBK2aeAr8o&libraries=places"></script>
   <!-- End scripts -->
 </body>
 

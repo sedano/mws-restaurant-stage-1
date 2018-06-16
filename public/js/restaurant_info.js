@@ -4,17 +4,22 @@ var map;
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
+loadRestaurant = (loadMap = false) => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
     } else {
+      const mapContainer = document.getElementById('map-container');
+      mapContainer.style.backgroundImage = `url("https://maps.googleapis.com/maps/api/staticmap?center=${restaurant.latlng.lat},${restaurant.latlng.lng}&markers=${restaurant.latlng.lat},${restaurant.latlng.lng}&zoom=16&size=640x640&scale=2&format=jpg&maptype=roadmap&key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw")`
+      fillBreadcrumb();
+
+      if (!loadMap)
+        return;
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: restaurant.latlng,
         scrollwheel: false
       });
-      fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
       google.maps.event.addListener(self.map, "tilesloaded", () => {
         setTimeout(() => {
@@ -26,6 +31,7 @@ window.initMap = () => {
     }
   });
 };
+
 
 /**
  * Get current restaurant from page URL.
@@ -179,3 +185,13 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadRestaurant(false); //Loads restaurant without interactive map
+  const mapContainer = document.getElementById('map-container')
+
+  mapContainer.addEventListener('click', () => {
+    document.getElementById('map').style.display = 'block';
+    loadRestaurant(true);
+  }, { once: true });
+});
