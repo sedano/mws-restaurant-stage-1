@@ -13,6 +13,7 @@ loadRestaurant = () => {
       mapContainer.style.backgroundImage = `url("https://maps.googleapis.com/maps/api/staticmap?center=${restaurant.latlng.lat},${restaurant.latlng.lng}&markers=${restaurant.latlng.lat},${restaurant.latlng.lng}&zoom=16&size=640x640&scale=2&format=jpg&maptype=roadmap&key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw")`
       fillBreadcrumb();
 
+      // if maps api library is not loading skip intialization
       if (!window.google)
         return;
       self.map = new google.maps.Map(document.getElementById('map'), {
@@ -192,7 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   mapContainer.addEventListener('click', () => {
     document.getElementById('map').style.display = 'block';
-    const script = document.createElement("script"); // Make a script DOM node
+    // This loads google maps api on demain, the callback must be defined manually and not on the url
+    const script = document.createElement("script");
     script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw&amp;libraries=places"
     document.body.appendChild(script);
     script.onreadystatechange = loadRestaurant;

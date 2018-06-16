@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const mapContainer = document.getElementById('map-container')
   mapContainer.addEventListener('click', () => {
     document.getElementById('map').style.display = 'block';
-    const script = document.createElement("script"); // Make a script DOM node
+    // This loads google maps api on demain, the callback must be defined manually and not on the url
+    const script = document.createElement("script");
     script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDFLEkTlKK34g2y6bk_f3XhCq-qgWbcmtw&amp;libraries=places"
     document.body.appendChild(script);
     script.onreadystatechange = initMap;
