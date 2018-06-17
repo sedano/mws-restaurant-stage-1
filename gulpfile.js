@@ -16,12 +16,10 @@ gulp.task('sw', () => {
             '**\/*.{html,json,js,css,xml,ico,webmanifest}',
         ],
         ignoreUrlParametersMatching: [/.*/],
-        runtimeCaching: [
-            {
-                urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-                handler: 'cacheFirst'
-            }
-        ],
+        runtimeCaching: [{
+            urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+            handler: 'cacheFirst'
+        }],
         swDest: 'public/workbox-sw.js',
     });
 });
@@ -33,6 +31,7 @@ gulp.task('serve:dev', () => {
         },
         open: false
     });
+    gulp.watch(['public/css/styles.css'], ['minify-css']);
     gulp.watch(['public/**/*'], reload);
 });
 
@@ -53,8 +52,12 @@ gulp.task('img', () => {
 
 gulp.task('minify-css', () => {
     return gulp.src('./public/css/styles.css')
-        .pipe(cleanCSS({ compatibility: 'ie8' }))
-        .pipe(rename({ suffix: '.min' }))
+        .pipe(cleanCSS({
+            compatibility: 'ie8'
+        }))
+        .pipe(rename({
+            suffix: '.min'
+        }))
         .pipe(gulp.dest('./public/css'));
 });
 
