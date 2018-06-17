@@ -481,6 +481,11 @@ nav h1 a:hover {
     /* text-shadow: 0 0 2px #333, 1px 1px #ccc, -1px 1px #ccc, 1px -1px #ccc, -1px -1px #ccc; */
 }
 
+#restaurant-name .star {
+    top: -12px;
+    right: 30px;
+}
+
 .star:before {
     content: "\2605";
     color: #ffffff;

@@ -180,6 +180,7 @@ createRestaurantHTML = (restaurant) => {
 
   const checkbox = document.createElement('input');
   checkbox.className = 'star';
+  checkbox.setAttribute('title', 'Add/Remove restaurant to favorites');
   checkbox.setAttribute('type', 'checkbox');
   (restaurant.is_favorite === 'true') ? checkbox.setAttribute('checked', true): null;
   checkbox.addEventListener('change', (e) => {
