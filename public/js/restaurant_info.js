@@ -96,7 +96,14 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  ReviewsHelper.fetchReviewsByRestaurantId(restaurant.id, (error, reviews) => {
+    self.restaurant.reviews = reviews;
+    if (!reviews) {
+      console.error(error);
+      return;
+    }
+    fillReviewsHTML();
+  });
 }
 
 /**
@@ -157,7 +164,7 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  date.innerHTML = (new Date(review.updatedAt).toDateString());
   li.appendChild(date);
 
   const rating = document.createElement('p');
