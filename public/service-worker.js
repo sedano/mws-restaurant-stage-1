@@ -37,9 +37,11 @@ const CACHE_FILES = [
     'js/dbhelper.js',
     'js/main.js',
     'js/restaurant_info.js',
+    'js/reviewshelper.js',
     'mstile-150x150.png',
     'restaurant.html',
-    'site.webmanifest']
+    'site.webmanifest'
+]
 
 self.addEventListener('install', event => {
     event.waitUntil(
@@ -74,7 +76,9 @@ self.addEventListener('fetch', event => {
         }
     }
     event.respondWith(
-        caches.match(event.request, { ignoreSearch: true }).then(response => {
+        caches.match(event.request, {
+            ignoreSearch: true
+        }).then(response => {
             return response || fetch(event.request);
         })
     );

@@ -331,7 +331,8 @@ nav h1 a:hover {
 }
 
 #restaurant-container,
-#reviews-container {
+#reviews-container,
+#review-form-container {
     border-bottom: 1px solid #d9d9d9;
     border-top: 1px solid #fff;
     padding: 140px 40px 30px;
@@ -343,7 +344,12 @@ nav h1 a:hover {
     padding: 30px 40px 80px 40px;
 }
 
-#reviews-container h3 {
+#review-form-container {
+    padding: 30px 40px;
+}
+
+#reviews-container h3,
+#review-form-container h3 {
     color: #b71c1c;
     font-size: 22pt;
     font-weight: 300;
@@ -422,7 +428,8 @@ nav h1 a:hover {
         flex: 1 1 auto;
     }
     #restaurant-container,
-    #reviews-container {
+    #reviews-container,
+    #review-form-container {
         border-bottom: 1px solid #d9d9d9;
         border-top: 1px solid #fff;
         padding: 20px;
@@ -454,7 +461,8 @@ nav h1 a:hover {
         letter-spacing: 5px;
     }
     #restaurant-container,
-    #reviews-container {
+    #reviews-container,
+    #review-form-container {
         padding-right: 5px;
         padding-left: 5px;
     }
@@ -504,4 +512,38 @@ nav h1 a:hover {
 .star:checked:before {
     color: #f2b01e;
     box-shadow: 0 0 15px #f2b01e;
+}
+
+/* ========== Review form =========== */
+
+.review-form input[type="text"],
+.review-form textarea {
+    width: 100%;
+}
+
+.review-form>div {
+    margin-bottom: 12px;
+}
+
+.review-form button {
+    background-color: #b71c1c;
+    color: #fff;
+    display: inline-block;
+    font-size: 10pt;
+    margin: 15px auto 0 auto;
+    padding: 8px 30px 10px;
+    border-radius: 2px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    border: none;
+}
+
+.review-form button:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.19), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.review-form button:focus {
+    box-shadow: 0 0 5px 2px #d50000;
 }

@@ -17,7 +17,7 @@ class ReviewsHelper {
   static openIDBDatabase() {
     return idb.open('mws-reviews', 1, upgradeDB => {
       upgradeDB.createObjectStore('mws-reviews', {
-        keyPath: ['id']
+        keyPath: 'id'
       });
       //Initialize database (done here to avoid duplicated readwrite operations)
       fetch(ReviewsHelper.DATABASE_URL)
@@ -95,6 +95,31 @@ class ReviewsHelper {
   }
 
   /**
+   * Delete single review from IDB
+   */
+  static deleteReview(reviewId, element) {
+
+    fetch(`${ReviewsHelper.DATABASE_URL}/${reviewId}`, {
+        method: 'DELETE', // or 'PUT'
+      }).then(res => res.json())
+      .then((review) => {
+        console.log(`Remove review ${review.id} from server`);
+        const dbPromise = ReviewsHelper.openIDBDatabase();
+        return dbPromise.then(db => {
+          if (!db) return;
+
+          const tx = db.transaction('mws-reviews', 'readwrite');
+          const store = tx.objectStore('mws-reviews');
+
+          element.remove();
+          store.delete(review.id);
+          console.log(`Remove review ${review.id} db entry`);
+        })
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  /**
    * Fetch all reviews.
    */
   static fetchReviews(callback) {
@@ -149,6 +174,7 @@ class ReviewsHelper {
       ReviewsHelper.getCachedReviews().then(reviews => {
         //Try to get from IDB and return cached restaurants
         if (reviews.length > 0) {
+          console.log('Got all reviews from db:', reviews);
           const results = reviews.filter(r => r.restaurant_id == restaurant_id);
           console.log('Got reviews from db:', results);
           callback(null, results);

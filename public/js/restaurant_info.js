@@ -149,7 +149,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   }
   const ul = document.getElementById('reviews-list');
   reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
+    ul.prepend(createReviewHTML(review));
   });
   container.appendChild(ul);
 }
@@ -174,6 +174,14 @@ createReviewHTML = (review) => {
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
   li.appendChild(comments);
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.innerHTML = 'Delete';
+  deleteBtn.addEventListener('click', () => {
+    ReviewsHelper.deleteReview(review.id, li)
+  });
+
+  li.prepend(deleteBtn);
 
   return li;
 }
@@ -206,9 +214,41 @@ getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+/**
+ * Post a review
+ */
+postReview = (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target)
+  const body = {
+    'restaurant_id': self.restaurant.id,
+    'name': formData.get('name'),
+    'rating': formData.get('rating'),
+    'comments': formData.get('comments')
+  }
+
+  fetch(ReviewsHelper.DATABASE_URL, {
+      method: 'POST',
+      body: JSON.stringify(body)
+    })
+    .then(res => res.json())
+    .then(review => {
+      ReviewsHelper.storeReview(review);
+      const ul = document.getElementById('reviews-list');
+      ul.prepend(createReviewHTML(review));
+      e.target.reset();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadRestaurant(); //Loads restaurant without interactive map
-  const mapContainer = document.getElementById('map-container')
+  const mapContainer = document.getElementById('map-container');
+  const reviewForm = document.getElementById('review-form');
+
+  reviewForm.addEventListener('submit', postReview);
 
   mapContainer.addEventListener('click', () => {
     document.getElementById('map').style.display = 'block';
