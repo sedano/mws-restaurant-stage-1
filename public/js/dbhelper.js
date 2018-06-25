@@ -280,6 +280,11 @@ class DBHelper {
       .then(res => res.json())
       .then(restaurant => {
         DBHelper.storeRestaurant(restaurant);
+        if (isFavorite) {
+          showToast('Restaurant added to favorites');
+        } else {
+          showToast('Restaurant removed from favorites');
+        }
       })
       .catch(error => {
         console.log(error);
@@ -316,6 +321,19 @@ if ('serviceWorker' in navigator) {
       showToast('There was an error during sw installation');
     });
   });
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+}
+
+function updateOnlineStatus(e) {
+  const networkStatus = document.getElementById('network-status');
+
+  if (navigator.onLine) {
+    networkStatus.className = '';
+    showToast('You are back online');
+  } else {
+    networkStatus.className = 'show'
+  }
 }
 
 function showToast(message) {

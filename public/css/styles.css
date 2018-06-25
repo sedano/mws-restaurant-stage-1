@@ -555,13 +555,14 @@ nav h1 a:hover {
 #toast {
     visibility: hidden;
     max-width: 350px;
+    min-width: 250px;
     background-color: #333;
     color: #fff;
     text-align: center;
     border-radius: 2px;
     padding: 16px;
     position: fixed;
-    z-index: 1;
+    z-index: 9999;
     left: 50%;
     transform: translate(-50%, 0px);
     bottom: 30px;
@@ -592,4 +593,21 @@ nav h1 a:hover {
         bottom: 0;
         opacity: 0;
     }
+}
+
+#network-status {
+    position: fixed;
+    visibility: hidden;
+    top: 0;
+    right: 0;
+    font-size: 11px;
+    background-color: #dd2c00;
+    color: #fff;
+    z-index: 9999;
+    width: 100%;
+    text-align: center;
+}
+
+#network-status.show {
+    visibility: visible;
 }
