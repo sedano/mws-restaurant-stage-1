@@ -32,6 +32,7 @@ const CACHE_FILES = [
     'img/8.jpg',
     'img/9-small.jpg',
     'img/9.jpg',
+    'img/placeholder.gif',
     'index.html',
     'js/idb.js',
     'js/dbhelper.js',

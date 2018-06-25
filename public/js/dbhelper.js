@@ -275,8 +275,8 @@ class DBHelper {
   static setFavoriteRestaurantById(restaurantId, isFavorite) {
     // http://localhost:1337/restaurants/<restaurant_id>/?is_favorite=false
     fetch(`${DBHelper.DATABASE_URL}/${restaurantId}/?is_favorite=${isFavorite}`, {
-        method: 'PUT'
-      })
+      method: 'PUT'
+    })
       .then(res => res.json())
       .then(restaurant => {
         DBHelper.storeRestaurant(restaurant);
@@ -288,10 +288,41 @@ class DBHelper {
 
 }
 
-// Check that service workers are registered
 if ('serviceWorker' in navigator) {
-  // Use the window load event to keep the page load performant
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js');
+    navigator.serviceWorker.register('service-worker.js').then((reg) => {
+      reg.onupdatefound = () => {
+        const installingWorker = reg.installing;
+
+        installingWorker.onstatechange = () => {
+          switch (installingWorker.state) {
+            case 'installed':
+              if (navigator.serviceWorker.controller) {
+                console.log('New or updated content is available.');
+              } else {
+                console.log('Content is now available offline!');
+                showToast('Restaurants Reviews is now available offline!')
+              }
+              break;
+
+            case 'redundant':
+              console.error('The installing service worker became redundant.');
+              break;
+          }
+        };
+      };
+    }).catch(function(e) {
+      console.error('Error during service worker registration:', e);
+      showToast('There was an error during sw installation');
+    });
   });
+}
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.innerText = message;
+  toast.className = 'show';
+
+  // After 3 seconds, remove the show class from DIV
+  setTimeout(() => {toast.className = toast.className.replace('show', '');}, 3000);
 }
