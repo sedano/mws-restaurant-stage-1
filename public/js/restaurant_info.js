@@ -170,23 +170,39 @@ createReviewHTML = (review) => {
   else date.innerHTML = 'Not yet published online'
   li.appendChild(date);
 
-  const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
+  const rating = createStarRating(review.rating);
   li.appendChild(rating);
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
   li.appendChild(comments);
 
-  const deleteBtn = document.createElement('button');
-  deleteBtn.innerHTML = 'Delete';
-  deleteBtn.addEventListener('click', () => {
-    ReviewsHelper.deleteReview(review.id, li)
-  });
+  // const deleteBtn = document.createElement('button');
+  // deleteBtn.innerHTML = 'Delete';
+  // deleteBtn.addEventListener('click', () => {
+  //   ReviewsHelper.deleteReview(review.id, li)
+  // });
 
-  li.prepend(deleteBtn);
+  // li.prepend(deleteBtn);
 
   return li;
+}
+
+/**
+ * Create a star rating
+ */
+createStarRating = (rating) => {
+  const p = document.createElement('p');
+  p.className = 'stars';
+  for (let i = 0; i < 5; i++) {
+    const span = document.createElement('span');
+    if (i < rating) {
+      span.className = 'checked';
+    }
+    span.innerHTML = String.fromCharCode('0x2605');
+    p.appendChild(span);
+  }
+  return p;
 }
 
 /**

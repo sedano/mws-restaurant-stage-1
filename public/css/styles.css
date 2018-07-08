@@ -548,6 +548,64 @@ nav h1 a:hover {
     box-shadow: 0 0 5px 2px #d50000;
 }
 
+.rating {
+    position: relative;
+    display: inline-block;
+    border: none;
+    font-size: 14px;
+}
+
+.rating input {
+    border: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+    opacity: 0;
+}
+
+.rating label {
+    position: relative;
+    float: right;
+    color: #777;
+}
+
+.rating label>span {
+    color: #f3f3f3;
+}
+
+.rating label:before {
+    cursor: pointer;
+    content: "\2605";
+    display: inline-block;
+    font-size: 1.5em;
+    color: #ccc;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.rating input:focus+label:before {
+    text-shadow: 0 0 3px #01579b;
+}
+
+.rating input:checked~label:before,
+.rating label:hover~label:before,
+.rating label:hover:before {
+    color: #ffc107;
+}
+
+.stars span {
+    color: #ccc;
+    font-size: 1.5em;
+}
+
+.stars .checked {
+    color: #ffc107;
+}
+
 /* ========== Toast =========== */
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
