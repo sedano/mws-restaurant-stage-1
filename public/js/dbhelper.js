@@ -275,8 +275,8 @@ class DBHelper {
   static setFavoriteRestaurantById(restaurantId, isFavorite) {
     // http://localhost:1337/restaurants/<restaurant_id>/?is_favorite=false
     fetch(`${DBHelper.DATABASE_URL}/${restaurantId}/?is_favorite=${isFavorite}`, {
-      method: 'PUT'
-    })
+        method: 'PUT'
+      })
       .then(res => res.json())
       .then(restaurant => {
         DBHelper.storeRestaurant(restaurant);
@@ -287,14 +287,59 @@ class DBHelper {
         }
       })
       .catch(error => {
-        console.log(error);
+        console.log('Cannot connect to server, saving changes offline');
+        DBHelper.setRestaurantSyncPending(restaurantId);
+        DBHelper.getCachedRestaurantsById(restaurantId).then(restaurant => {
+          restaurant.is_favorite = isFavorite.toString();
+          DBHelper.storeRestaurant(restaurant);
+          showToast('Restaurant updated offline');
+        })
       });
   }
 
+  static setRestaurantSyncPending(restaurantId) {
+    const syncPending = DBHelper.getRestaurantSyncPending();
+    if (syncPending.includes(restaurantId))
+      return;
+    syncPending.push(restaurantId);
+    localStorage.setItem('syncRestaurantPending', JSON.stringify(syncPending));
+  }
+
+  static getRestaurantSyncPending() {
+    return JSON.parse(localStorage.getItem('syncRestaurantPending')) || [];
+  }
+
+  static syncPendingRestaurants() {
+    const pendingRestaurants = DBHelper.getRestaurantSyncPending();
+    if (!pendingRestaurants || pendingRestaurants.length === 0)
+      return;
+    showToast('Syncing favorite restaurants');
+    Promise.all(pendingRestaurants.map(restaurantId => {
+      return DBHelper.getCachedRestaurantsById(restaurantId).then(restaurant => {
+        return fetch(`${DBHelper.DATABASE_URL}/${restaurantId}/?is_favorite=${restaurant.is_favorite}`, {
+          method: 'PUT'
+        }).then((res) => {
+          return res.json()
+        });
+      });
+    })).then(restaurants => {
+      console.log(`Synced ${restaurants.length} restaurant(s)`);
+      showToast('Favorites succesfully synced');
+      localStorage.removeItem('syncRestaurantPending');
+    })
+
+  }
 }
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
+
+    if (!navigator.onLine) {
+      document.getElementById('network-status').className = 'show'
+    } else {
+      DBHelper.syncPendingRestaurants();
+    }
+
     navigator.serviceWorker.register('service-worker.js').then((reg) => {
       reg.onupdatefound = () => {
         const installingWorker = reg.installing;
@@ -316,7 +361,7 @@ if ('serviceWorker' in navigator) {
           }
         };
       };
-    }).catch(function(e) {
+    }).catch(function (e) {
       console.error('Error during service worker registration:', e);
       showToast('There was an error during sw installation');
     });
@@ -331,6 +376,7 @@ function updateOnlineStatus(e) {
   if (navigator.onLine) {
     networkStatus.className = '';
     showToast('You are back online');
+    DBHelper.syncPendingRestaurants();
   } else {
     networkStatus.className = 'show'
   }
@@ -342,5 +388,7 @@ function showToast(message) {
   toast.className = 'show';
 
   // After 3 seconds, remove the show class from DIV
-  setTimeout(() => {toast.className = toast.className.replace('show', '');}, 3000);
+  setTimeout(() => {
+    toast.className = toast.className.replace('show', '');
+  }, 3000);
 }
