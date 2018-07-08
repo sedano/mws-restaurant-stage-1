@@ -324,7 +324,7 @@ class DBHelper {
       });
     })).then(restaurants => {
       console.log(`Synced ${restaurants.length} restaurant(s)`);
-      showToast('Favorites succesfully synced');
+      showToast('Favorites successfully synced');
       localStorage.removeItem('syncRestaurantPending');
     })
 

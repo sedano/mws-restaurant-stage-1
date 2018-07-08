@@ -236,6 +236,8 @@ class ReviewsHelper {
     })).then(reviews => {
       console.log(`Synced ${reviews.length} review(s)`);
       localStorage.removeItem('syncReviewsPending');
+      // Event listener only in restaurant info page, will reload the app
+      showToast('Reviews uploaded succesfully');
       document.dispatchEvent(reviewsUpdatedEvent);
     }).catch(error => {
       console.log(error);

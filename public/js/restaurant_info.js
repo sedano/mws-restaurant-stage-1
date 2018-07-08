@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('reviewsUpdated', () => {
-  showToast('Reviews succesfully synced, reloading...');
+  showToast('Reviews uploaded succesfully, reloading...');
   setTimeout(() => {
     location.reload();
   }, 1500);
