@@ -120,6 +120,22 @@ class ReviewsHelper {
   }
 
   /**
+   * Delete single offline review from IDB
+   */
+  static deleteOfflineReview(reviewId) {
+    const dbPromise = ReviewsHelper.openIDBDatabase();
+    return dbPromise.then(db => {
+      if (!db) return;
+
+      const tx = db.transaction('mws-reviews', 'readwrite');
+      const store = tx.objectStore('mws-reviews');
+
+      store.delete(reviewId);
+      console.log(`Remove offline review ${reviewId} db entry`);
+    }).catch(error => console.error('Error:', error));
+  }
+
+  /**
    * Fetch all reviews.
    */
   static fetchReviews(callback) {
@@ -192,4 +208,60 @@ class ReviewsHelper {
           });
       });
     }
+
+  static setReviewSyncPending(review) {
+    const syncPending = ReviewsHelper.getReviewsSyncPending();
+    syncPending.push(review);
+    localStorage.setItem('syncReviewsPending', JSON.stringify(syncPending));
+  }
+
+  static getReviewsSyncPending() {
+    return JSON.parse(localStorage.getItem('syncReviewsPending')) || [];
+  }
+
+  static syncPendingReviews() {
+    const pendingReviews = ReviewsHelper.getReviewsSyncPending();
+    if (!pendingReviews || pendingReviews.length === 0)
+      return;
+    showToast('Syncing reviews...');
+    Promise.all(pendingReviews.map(review => {
+      const reviewId = review.id;
+      delete review.id;
+      return ReviewsHelper.postReview(review, (error, body) => {
+        if (!error) {
+          ReviewsHelper.deleteOfflineReview(reviewId);
+          ReviewsHelper.storeReview(body);
+        }
+      });
+    })).then(reviews => {
+      console.log(`Synced ${reviews.length} review(s)`);
+      localStorage.removeItem('syncReviewsPending');
+      document.dispatchEvent(reviewsUpdatedEvent);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  static postReview(body, callback) {
+    if (!navigator.onLine) {
+      showToast('Review saved offline');
+      body.id = Date.now();
+      ReviewsHelper.setReviewSyncPending(body);
+      callback(null, body);
+    } else {
+      fetch(ReviewsHelper.DATABASE_URL, {
+          method: 'POST',
+          body: JSON.stringify(body)
+        })
+        .then(res => res.json())
+        .then(review => {
+          callback(null, review);
+        })
+        .catch(error => {
+          callback(error, null);
+        });
+    }
+  }
+
+
 }

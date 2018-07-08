@@ -338,6 +338,7 @@ if ('serviceWorker' in navigator) {
       document.getElementById('network-status').className = 'show'
     } else {
       DBHelper.syncPendingRestaurants();
+      ReviewsHelper.syncPendingReviews();
     }
 
     navigator.serviceWorker.register('service-worker.js').then((reg) => {
@@ -377,6 +378,7 @@ function updateOnlineStatus(e) {
     networkStatus.className = '';
     showToast('You are back online');
     DBHelper.syncPendingRestaurants();
+    ReviewsHelper.syncPendingReviews();
   } else {
     networkStatus.className = 'show'
   }

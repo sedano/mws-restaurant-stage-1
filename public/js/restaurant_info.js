@@ -1,3 +1,4 @@
+const reviewsUpdatedEvent = new Event('reviewsUpdated');
 let restaurant;
 var map;
 
@@ -48,11 +49,11 @@ fetchRestaurantFromURL = (callback) => {
     callback(error, null);
   } else {
     DBHelper.fetchRestaurantById(id, (error, restaurant) => {
-      self.restaurant = restaurant;
       if (!restaurant) {
         console.error(error);
         return;
       }
+      self.restaurant = restaurant;
       fillRestaurantHTML();
       callback(null, restaurant)
     });
@@ -97,11 +98,11 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   }
   // fill reviews
   ReviewsHelper.fetchReviewsByRestaurantId(restaurant.id, (error, reviews) => {
-    self.restaurant.reviews = reviews;
     if (!reviews) {
       console.error(error);
       return;
     }
+    self.restaurant.reviews = reviews;
     fillReviewsHTML();
   });
 }
@@ -164,7 +165,9 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = (new Date(review.updatedAt).toDateString());
+  if (review.updatedAt)
+    date.innerHTML = (new Date(review.updatedAt).toDateString());
+  else date.innerHTML = 'Not yet published online'
   li.appendChild(date);
 
   const rating = document.createElement('p');
@@ -219,28 +222,23 @@ getParameterByName = (name, url) => {
  */
 postReview = (e) => {
   e.preventDefault();
-  const formData = new FormData(e.target)
+  const formData = new FormData(e.target);
+  const id = Number(getParameterByName('id'));
   const body = {
-    'restaurant_id': self.restaurant.id,
+    'restaurant_id': id,
     'name': formData.get('name'),
-    'rating': formData.get('rating'),
+    'rating': Number(formData.get('rating')),
     'comments': formData.get('comments')
   }
 
-  fetch(ReviewsHelper.DATABASE_URL, {
-      method: 'POST',
-      body: JSON.stringify(body)
-    })
-    .then(res => res.json())
-    .then(review => {
+  ReviewsHelper.postReview(body, (error, review) => {
+    if (!error) {
       ReviewsHelper.storeReview(review);
       const ul = document.getElementById('reviews-list');
       ul.prepend(createReviewHTML(review));
       e.target.reset();
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -261,4 +259,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }, {
     once: true
   });
+});
+
+document.addEventListener('reviewsUpdated', () => {
+  showToast('Reviews succesfully synced, reloading...');
+  setTimeout(() => {
+    location.reload();
+  }, 1500);
 });
