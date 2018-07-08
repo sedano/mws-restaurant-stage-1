@@ -306,6 +306,7 @@ nav h1 a:hover {
     margin: 15px 0 30px;
     text-transform: uppercase;
     line-height: 1.1;
+    display: inline-block;
 }
 
 #restaurant-img {
@@ -480,18 +481,25 @@ nav h1 a:hover {
 /* ========== Favorite star =========== */
 
 .star {
-    visibility: hidden;
+    /* visibility: hidden; */
     position: absolute;
-    top: -25px;
-    right: 40px;
+    top: -9px;
+    right: 20px;
     font-size: 30px;
     cursor: pointer;
     /* text-shadow: 0 0 2px #333, 1px 1px #ccc, -1px 1px #ccc, 1px -1px #ccc, -1px -1px #ccc; */
 }
 
-#restaurant-name .star {
-    top: -12px;
-    right: 30px;
+.star.inline {
+    top: 0;
+    right: 0;
+    display: inline-block;
+    position: relative;
+    margin: 0 8px;
+}
+
+.star:focus::before {
+    box-shadow: 0 0 15px #f2b01e;
 }
 
 .star:before {
@@ -503,15 +511,34 @@ nav h1 a:hover {
     background-color: #818f95;
     border-radius: 100%;
     text-align: center;
-    line-height: 35px;
-    width: 35px;
-    height: 35px;
+    line-height: 36px;
+    width: 36px;
+    height: 36px;
     padding: 5px;
+    left: -18px;
+    top: -18px;
+}
+
+.star.inline:before {
+    content: "\2605";
+    color: #ffffff;
+    visibility: visible;
+    position: absolute;
+    display: block;
+    background-color: #818f95;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 30px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    left: -10px;
+    top: -12px;
 }
 
 .star:checked:before {
     color: #f2b01e;
-    box-shadow: 0 0 15px #f2b01e;
+    box-shadow: 0 0 7px #f2b01e;
 }
 
 /* ========== Review form =========== */

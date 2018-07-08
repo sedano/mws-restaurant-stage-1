@@ -66,18 +66,12 @@ fetchRestaurantFromURL = (callback) => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
-  name.style.position = 'relative';
 
-  const checkbox = document.createElement('input');
-  checkbox.className = 'star';
-  checkbox.setAttribute('title', 'Add/Remove restaurant to favorites');
-  checkbox.setAttribute('type', 'checkbox');
+  const checkbox = document.getElementById('restaurant-favorite');
   (restaurant.is_favorite === 'true') ? checkbox.setAttribute('checked', true): null;
   checkbox.addEventListener('change', (e) => {
     DBHelper.setFavoriteRestaurantById(restaurant.id, e.target.checked);
   });
-  name.append(checkbox);
-
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
