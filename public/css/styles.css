@@ -495,7 +495,7 @@ nav h1 a:hover {
     right: 0;
     display: inline-block;
     position: relative;
-    margin: 0 8px;
+    margin: 0 16px 0 8px;
 }
 
 .star:focus::before {
@@ -631,6 +631,25 @@ nav h1 a:hover {
 
 .stars .checked {
     color: #ffc107;
+}
+
+@media only screen and (max-width:480px) {
+    .star.inline {
+        margin: 14px 8px;
+        left: calc(50% - 10px);
+    }
+    .star.inline:before {
+        line-height: 34px;
+        width: 34px;
+        height: 34px;
+        padding: 6px;
+        left: -17px;
+        top: -17px;
+    }
+    #restaurant-name {
+        display: block;
+        text-align: center;
+    }
 }
 
 /* ========== Toast =========== */
